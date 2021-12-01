@@ -11,11 +11,14 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const user = await User.create(req.body)
 
+
+    const token = user.getJwtToken();
+
     res.status(201).json({
         success: true,
-        user
+        token
     })
 
 })
 
-// Encrypting password before saving user
+
