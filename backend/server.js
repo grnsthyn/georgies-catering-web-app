@@ -17,8 +17,6 @@ const dotenv = require('dotenv');
 // Setting up config file path
 dotenv.config({ path: 'backend/config/config.env' })
 
-console.log(a);
-
 connectDatabase();
 
 const server = app.listen(process.env.PORT, () => {
