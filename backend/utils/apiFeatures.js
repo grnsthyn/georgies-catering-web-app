@@ -1,7 +1,7 @@
 class APIFeatures {
     constructor(query, queryStr) {
-        this.query = query;
-        this.queryStr = queryStr;
+        this.query = query
+        this.queryStr = queryStr
     }
 
     search() {
@@ -12,33 +12,32 @@ class APIFeatures {
             }
         } : {}
 
-        this.query = this.query.find({ ...keyword });
-        return this;
+        this.query = this.query.find({ ...keyword })
+        return this
     }
 
     filter() {
-        const queryCopy = { ...this.queryStr };
+        const queryCopy = { ...this.queryStr }
 
         // Removing fields from the query 
         const removeFields = ['keyword', 'limit', 'page']
-        removeFields.forEach(el => delete queryCopy[el]);
+        removeFields.forEach(el => delete queryCopy[el])
 
         // Advance filter for price, size, etc
         let queryStr = JSON.stringify(queryCopy)
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`)
 
-        this.query = this.query.find(JSON.parse(queryStr));
+        this.query = this.query.find(JSON.parse(queryStr))
         return this;
     }
 
     pagination(resPerPage){
-        const currentPage = Number(this.queryStr.page) || 1;
-        const skip = resPerPage * (currentPage - 1);
+        const currentPage = Number(this.queryStr.page) || 1
+        const skip = resPerPage * (currentPage - 1)
 
-        this.query = this.query.limit(resPerPage).skip(skip);
-        return this;
+        this.query = this.query.limit(resPerPage).skip(skip)
+        return this
     }
-
 }
 
 module.exports = APIFeatures

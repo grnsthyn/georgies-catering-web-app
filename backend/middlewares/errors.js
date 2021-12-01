@@ -1,6 +1,5 @@
 const ErrorHandler = require('../utils/errorHandler');
 
-
 module.exports = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
 
@@ -16,7 +15,7 @@ module.exports = (err, req, res, next) => {
     if (process.env.NODE_ENV === 'PRODUCTION') {
         let error = { ...err }
 
-        error.message = err.message;
+        error.message = err.message
 
         // Wrong mongoose object id error
         if(err.name == 'CastError'){

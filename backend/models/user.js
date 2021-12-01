@@ -4,12 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto')
 
-
 const userSchema = new mongoose.Schema({
     full_name:{
         type: String,
         required: [true, 'Please enter your name'],
-        
     },
     email: {
         type: String,
@@ -72,4 +70,4 @@ userSchema.methods.getResetPasswordToken = function () {
     return resetToken
 }
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)
