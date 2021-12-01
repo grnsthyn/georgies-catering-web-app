@@ -1,6 +1,6 @@
-// Error Handler class for
-class ErrorHandler extends ErrorHandler {
-    constructor(message, errorCode) {
+// Error Handler class
+class ErrorHandler extends Error {
+    constructor(message, statusCode) {
         super(message)
         this.statusCode = statusCode
 
@@ -8,4 +8,4 @@ class ErrorHandler extends ErrorHandler {
     }
 }
 
-mosule.exports = ErrorHandler;
+module.exports = ErrorHandler;
