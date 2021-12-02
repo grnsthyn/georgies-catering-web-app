@@ -27,7 +27,12 @@ exports.newOrder = catchAsyncErrors( async(req,res,next) => {
         total_price,
         order_date,
         delivery_date
-    }
+        }
     )
+
+    res.send(200).json({
+        success: true,
+        order
+    })
 
 })
