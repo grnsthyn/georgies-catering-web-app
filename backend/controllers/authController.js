@@ -126,6 +126,19 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 200, res)
 })
 
+// Update profile => /api/v1/admin/me/update
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+    //const newUserData = { role: req.body.role }
+    const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
 
 // Logout user => api/v1/Logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
