@@ -55,7 +55,7 @@ const orderSchema = new mongoose.Schema({
     ],
     delivery_mode:{
         type: String,
-        required: [true, 'please select if delivery / pickup'],
+        required: [true, 'Please select if delivery or pickup'],
         trim: true
     },
     status:{
@@ -67,12 +67,12 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
     order_date:{
-        type: Date.now(),
-        required: true
+        type: Date,
+        required: true,
+        default: new Date(Date.now())
     },
     delivery_date:{
-        // date / time data type ito lodibabes TODO
-        type: String,
+        type: Date,
         required: true
     }
     
