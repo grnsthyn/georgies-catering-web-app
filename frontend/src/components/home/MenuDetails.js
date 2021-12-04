@@ -32,7 +32,7 @@ const MenuDetails = ({ match }) => {
             alert.error(error)
             dispatch(clearErrors())
         }
-    }, [dispatch, alert, error, id])
+    }, [dispatch, alert, error, menu_item, id])
 
     return (
         <Fragment>
