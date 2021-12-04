@@ -4,7 +4,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL"
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
-// export const LOGIN_FAIL = "LOGIN_FAIL"
+export const LOGOUT_FAIL = "LOGOUT_FAIL"
 
 export const GET_USER_REQUEST = "GET_USER_REQUEST"
 export const GET_USER_SUCCESS_ = "GET_USER_SUCCESS_"

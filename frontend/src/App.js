@@ -9,6 +9,7 @@ import Menu from './components/home/Menu'
 import Contact from './components/home/Contact'
 import Faq from './components/home/Faq'
 import Login from './components/home/Login'
+import MenuDetails from './components/home/MenuDetails'
 
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Home/>} />
                         <Route path='/about' element={<About/>} />
-                        <Route path='/contact' element={<Menu/>} />
-                        <Route path='/menu' element={<Contact/>} />
+                        <Route path='/menu' element={<Menu/>} />
+                        <Route path='/menu/:id' element={<MenuDetails/>} />
+                        <Route path='/contact' element={<Contact/>} />
                         <Route path='/faq' element={<Faq/>} />
                         <Route path='/login' element={<Login/>} />
                     </Routes>

@@ -46,7 +46,7 @@ const orderSchema = new mongoose.Schema({
                 unique: true,
                 validate: [validator.isEmail, 'Please enter a valid email address']
             },
-            food_name:{
+            name:{
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
                 ref:'Product'
