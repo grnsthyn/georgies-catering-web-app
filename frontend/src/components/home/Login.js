@@ -3,10 +3,12 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Form, Button, Card } from 'react-bootstrap'
 import { login, clearErrors } from '../../actions/authActions'
+import { useNavigate } from "react-router-dom"
 
-const Login = ({ history }) => {
+const Login = () => {
     const alert = useAlert()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { isAuthenticated, error, loading } = useSelector(state => state.auth)
 
@@ -21,9 +23,9 @@ const Login = ({ history }) => {
 
         if(isAuthenticated) {
             alert.success("Logged in successfully.")
-            history.push('/')
+            navigate('/')
         }
-    }, [dispatch, history, alert, error, isAuthenticated])
+    }, [dispatch, navigate, alert, error, isAuthenticated])
 
     const submitHandler = e => {
         e.preventDefault()
