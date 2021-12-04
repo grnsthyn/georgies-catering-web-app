@@ -10,6 +10,7 @@ import Contact from './components/home/Contact'
 import Faq from './components/home/Faq'
 import Login from './components/home/Login'
 import MenuDetails from './components/home/MenuDetails'
+import ProductForm from './components/admin/ProductForm'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                         <Route path='/contact' element={<Contact/>} />
                         <Route path='/faq' element={<Faq/>} />
                         <Route path='/login' element={<Login/>} />
+                        <Route path='/admin' element={<ProductForm/>} />
                     </Routes>
                 <Footer/>
             </div>
