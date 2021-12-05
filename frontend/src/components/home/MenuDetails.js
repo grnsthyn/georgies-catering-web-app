@@ -4,25 +4,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getMenuDetails, clearErrors } from '../../actions/menuActions'
 import { useParams } from "react-router-dom"
-import { Container } from 'react-bootstrap'
+import { Container, Image } from 'react-bootstrap'
 
 const MenuDetails = ({ match }) => {
     const alert = useAlert()
     const dispatch = useDispatch()
-    const {id} = useParams()
+    const { id } = useParams()
 
     const { loading, error, menu_item } = useSelector(state => state.menuDetails)
 
     const [name, setName] = useState('')
+    const [image, setImage] = useState('')
     const [priceList, setPriceList] = useState([])
     const [category, setCategory] = useState('')
 
     useEffect(() => {
-        if (menu_item && menu_item._id !== id) {
+    if (menu_item && menu_item._id !== id) {
             dispatch(getMenuDetails(id))
         } else if (menu_item) {
             setName(menu_item.name)
             setPriceList(menu_item.price_list)
+            setImage(menu_item.image)
             setCategory(menu_item.category)
         } else {
             dispatch(getMenuDetails(id))
@@ -45,7 +47,9 @@ const MenuDetails = ({ match }) => {
                             <p>{price.size} - {price.price}</p>
                         ))}
                         <p>{category}</p>
-                        {/* <Link to={`/menu/${item._id}`}>View item</Link> */}
+                        {image &&
+                            <Image src={image} fluid />
+                        }
                     </Fragment>
                 )}
             </Container>

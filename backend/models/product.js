@@ -29,27 +29,26 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please enter product availability'],
         trim: true,
     },
-    image: [
-        {
-            public_id: {
-                type: String,
-                required: true
-            },
-            url: {
-                type: String,
-                required: true
-            }
-        }
-    ],
+    image: {
+        type: String,
+        required: [true, 'Please enter product name']
+    },
+    // image: [
+    //     {
+    //         public_id: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         url: {
+    //             type: String,
+    //             required: true
+    //         }
+    //     }
+    // ],
     category: {
         type: String,
         required: [true, 'Please enter product category'],
         trim: true
-    },
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: true
     }
 })
 
