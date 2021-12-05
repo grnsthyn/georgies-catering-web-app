@@ -1,8 +1,12 @@
 import { Form, Button } from "react-bootstrap"
-
+import {useDispatch} from 'react-redux';
 import { useState } from 'react';
+import { createProduct } from "../../actions/productActions";
+import FileBase from 'react-file-base64'
 
 const ProductForm = () => {
+
+    const dispatch = useDispatch();
 
     const [smallDetails, setSmallDetails] = useState({
         size: 'Small',
@@ -25,10 +29,11 @@ const ProductForm = () => {
     //product details
     const [product, setProduct] = useState({
         name: '',
-        priceList: [],
+        price_list: [],
         image: '',
         category: '',
-        user: ''
+        // user: ''
+        available: true
     });
 
     // if nakacheck saka lang lalabas yung input
@@ -51,23 +56,24 @@ const ProductForm = () => {
                 size: smallDetails.size,
                 price: smallDetails.price
             }
-            setProduct({ ...product, priceList: product.priceList.push(list) })
+            setProduct({ ...product, price_list: product.price_list.push(list) })
         }
         if (mediumDetails.checked) {
             const list = {
-                size: smallDetails.size,
-                price: smallDetails.price
+                size: mediumDetails.size,
+                price: mediumDetails.price
             }
-            setProduct({ ...product, priceList: product.priceList.push(list) })
+            setProduct({ ...product, price_list: product.price_list.push(list) })
         }
         if (largeDetails.checked) {
             const list = {
-                size: smallDetails.size,
-                price: smallDetails.price
+                size: largeDetails.size,
+                price: largeDetails.price
             }
-            setProduct({ ...product, priceList: product.priceList.push(list) })
+            setProduct({ ...product, price_list: product.price_list.push(list) })
         }
-        console.log(product)
+        
+        dispatch(createProduct(product));
 
     }
 
@@ -76,14 +82,14 @@ const ProductForm = () => {
         <Form className="container" onSubmit={(e) => submitHandler(e)}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter product name" value={product.size} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
+                <Form.Control type="text" placeholder="Enter product name" value={product.name} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Sizes</Form.Label>
                 <Form.Check
                     inline
                     label="Small"
-                    name="pricelist"
+                    name="price_list"
                     type="checkbox"
                     id="small"
                     onChange={() => setSmallDetails({ ...smallDetails, checked: !smallDetails.checked })}
@@ -92,7 +98,7 @@ const ProductForm = () => {
                 <Form.Check
                     inline
                     label="Medium"
-                    name="pricelist"
+                    name="price_list"
                     type="checkbox"
                     id="medium"
                     onChange={() => setMediumDetails({ ...mediumDetails, checked: !mediumDetails.checked })}
@@ -101,7 +107,7 @@ const ProductForm = () => {
                 <Form.Check
                     inline
                     label="Large"
-                    name="pricelist"
+                    name="price_list"
                     type="checkbox"
                     id="large"
                     onChange={() => setLargeDetails({ ...largeDetails, checked: !largeDetails.checked })}
@@ -132,8 +138,10 @@ const ProductForm = () => {
             </Form.Group>
 
             <Form.Group controlId="formFileSm" className="mb-3">
-                <Form.Label>Product Image</Form.Label>
-                <Form.Control type="file" size="md" />
+                {/* <Form.Label>Product Image</Form.Label>
+                <Form.Control type="file" size="md" /> */}
+            <FileBase type="file" value={product.image} onDone={({ base64 }) => setProduct({ ...product, image: base64 })} />
+
             </Form.Group>
 
             <Button variant="primary" type="submit">

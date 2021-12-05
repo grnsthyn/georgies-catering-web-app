@@ -1,28 +1,20 @@
-import {
-    ALL_MENU_REQUEST,
-    ALL_MENU_SUCCESS,
-    ALL_MENU_FAIL,
-    MENU_DETAILS_REQUEST,
-    MENU_DETAILS_SUCCESS,
-    MENU_DETAILS_FAIL,
-    CLEAR_ERRORS
-} from '../constants/menuConstants'
+import * as product from '../constants/productConstants';
 
-export const menuReducer = (state = { menu: [] }, action) => {
+export const productReducer = (state = { products: [] }, action) => {
     switch (action.type) {
-        case ALL_MENU_REQUEST:
+        case product.ADD_PRODUCT_REQUEST:
             return {
                 loading: true
             }
 
-        case ALL_MENU_SUCCESS:
+        case product.ADD_PRODUCT_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                menu: action.payload.products
+                products: [...state.products, action.payload.product]
             }
 
-        case ALL_MENU_FAIL:
+        case product.ADD_PRODUCT_FAIL:
             return {
                 ...state,
                 loading: false,
