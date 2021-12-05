@@ -41,21 +41,33 @@ const ProductForm = () => {
     )
 
     //insert na lang categories dito
-    const categories = ["masarap", "mas masarap", "pinakamasarap"];
+    const categories = ["masarap", "mas masarap", "pinakamasarap", "pinakamarasarapimization"];
 
     const submitHandler = (e) => {
         e.preventDefault();
 
         if (smallDetails.checked) {
-            setProduct({ ...product, priceList: product.priceList.push(smallDetails) })
+            const list = {
+                size: smallDetails.size,
+                price: smallDetails.price
+            }
+            setProduct({ ...product, priceList: product.priceList.push(list) })
         }
         if (mediumDetails.checked) {
-            setProduct({ ...product, priceList: product.priceList.push(mediumDetails) })
+            const list = {
+                size: smallDetails.size,
+                price: smallDetails.price
+            }
+            setProduct({ ...product, priceList: product.priceList.push(list) })
         }
         if (largeDetails.checked) {
-            setProduct({ ...product, priceList: product.priceList.push(largeDetails) })
+            const list = {
+                size: smallDetails.size,
+                price: smallDetails.price
+            }
+            setProduct({ ...product, priceList: product.priceList.push(list) })
         }
-    console.log(product)
+        console.log(product)
 
     }
 
