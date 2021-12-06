@@ -1,18 +1,10 @@
 import axios from 'axios'
-import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT_REQUEST,
-    LOGOUT_SUCCESS,
-    LOGOUT_FAIL,
-    CLEAR_ERRORS
-} from '../constants/authConstants'
+import * as auth from '../constants/authConstants'
 
 export const login = (user) => async (dispatch) => {
     try {
         dispatch({
-            type: LOGIN_REQUEST
+            type: auth.LOGIN_REQUEST
         })
 
         const config = {
@@ -25,13 +17,13 @@ export const login = (user) => async (dispatch) => {
         const { data } = await axios.post('/api/v1/login', user, config)
 
         dispatch({
-            type: LOGIN_SUCCESS,
+            type: auth.LOGIN_SUCCESS,
             payload: data.user
         })
 
     } catch (error) {
         dispatch({
-            type: LOGIN_FAIL,
+            type: auth.LOGIN_FAIL,
             payload: error.response.data.message
         })
     }
@@ -40,18 +32,39 @@ export const login = (user) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
     try {
         dispatch({
-            type: LOGOUT_REQUEST
+            type: auth.LOGOUT_REQUEST
         })
 
         await axios.get('/api/v1/logout')
 
         dispatch({
-            type: LOGOUT_SUCCESS
+            type: auth.LOGOUT_SUCCESS
         })
 
     } catch (error) {
         dispatch({
-            type: LOGOUT_FAIL,
+            type: auth.LOGOUT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const loadUser = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: auth.LOAD_USER_REQUEST
+        })
+
+        const { data } = await axios.get('/api/v1/me')
+
+        dispatch({
+            type: auth.LOAD_USER_SUCCESS,
+            payload: data.user
+        })
+
+    } catch (error) {
+        dispatch({
+            type: auth.LOAD_USER_FAIL,
             payload: error.response.data.message
         })
     }
@@ -59,6 +72,6 @@ export const logout = () => async (dispatch) => {
 
 export const clearErrors = () => async (dispatch) => {
     dispatch({
-        type: CLEAR_ERRORS
+        type: auth.CLEAR_ERRORS
     })
 }

@@ -1,153 +1,134 @@
-import { Form, Button } from "react-bootstrap"
-import {useDispatch} from 'react-redux';
-import { useState } from 'react';
-import { createProduct } from "../../actions/productActions";
+import React, { Fragment, useState, useEffect } from 'react'
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom"
+import { Form, Button, InputGroup, Card, Container } from "react-bootstrap"
+import { createProduct, clearErrors } from "../../actions/productActions"
 import FileBase from 'react-file-base64'
 
 const ProductForm = () => {
+    const dispatch = useDispatch()
+    const alert = useAlert()
+    const navigate = useNavigate()
 
-    const dispatch = useDispatch();
+    const { success, loading, error } = useSelector(state => state.product)
 
-    const [smallDetails, setSmallDetails] = useState({
-        size: 'Small',
-        checked: false,
-        price: ''
-    });
+    useEffect(() => {
+        if (error) {
+            alert.error(error)
+            dispatch(clearErrors())
+        }
 
-    const [mediumDetails, setMediumDetails] = useState({
-        size: 'Medium',
-        checked: false,
-        price: ''
-    });
+        if (success) {
+            alert.success("Product created.")
+            navigate('/')
+        }
+    }, [dispatch, navigate, alert, success, error])
 
-    const [largeDetails, setLargeDetails] = useState({
-        size: 'Large',
-        checked: false,
-        price: ''
-    })
-
+    const [small, setSmall] = useState(false)
+    const [medium, setMedium] = useState(false)
+    const [large, setLarge] = useState(false)
     //product details
     const [product, setProduct] = useState({
         name: '',
         price_list: [],
         image: '',
         category: '',
-        // user: ''
         available: true
-    });
+    })
+    const [smallDetails, setSmallDetails] = useState({
+        size: 'Small',
+        price: ''
+    })
+    const [mediumDetails, setMediumDetails] = useState({
+        size: 'Medium',
+        price: ''
+    })
+    const [largeDetails, setLargeDetails] = useState({
+        size: 'Large',
+        price: ''
+    })
 
-    // if nakacheck saka lang lalabas yung input
-    const isChecked = (size, setSize) => (
-        (size.checked && size.checked) &&
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>{size.name} Price</Form.Label>
-            <Form.Control type="text" placeholder="Enter price" value={size.price} onChange={(e) => setSize({ ...size, price: e.target.value })} />
-        </Form.Group>
-    )
-
-    //insert na lang categories dito
+    //?insert na lang categories dito
+    //!will get from categories table
     const categories = ["masarap", "mas masarap", "pinakamasarap", "pinakamarasarapimization"];
 
     const submitHandler = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        if (smallDetails.checked) {
-            const list = {
-                size: smallDetails.size,
-                price: smallDetails.price
-            }
-            setProduct({ ...product, price_list: product.price_list.push(list) })
+        if (small) {
+            setProduct({ ...product, price_list: product.price_list.push(smallDetails) })
         }
-        if (mediumDetails.checked) {
-            const list = {
-                size: mediumDetails.size,
-                price: mediumDetails.price
-            }
-            setProduct({ ...product, price_list: product.price_list.push(list) })
+        if (medium) {
+            setProduct({ ...product, price_list: product.price_list.push(mediumDetails) })
         }
-        if (largeDetails.checked) {
-            const list = {
-                size: largeDetails.size,
-                price: largeDetails.price
-            }
-            setProduct({ ...product, price_list: product.price_list.push(list) })
+        if (large) {
+            setProduct({ ...product, price_list: product.price_list.push(largeDetails) })
         }
-        
-        dispatch(createProduct(product));
 
+        dispatch(createProduct(product))
     }
 
-
     return (
-        <Form className="container" onSubmit={(e) => submitHandler(e)}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter product name" value={product.name} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Sizes</Form.Label>
-                <Form.Check
-                    inline
-                    label="Small"
-                    name="price_list"
-                    type="checkbox"
-                    id="small"
-                    onChange={() => setSmallDetails({ ...smallDetails, checked: !smallDetails.checked })}
-                    value={smallDetails?.checked}
-                />
-                <Form.Check
-                    inline
-                    label="Medium"
-                    name="price_list"
-                    type="checkbox"
-                    id="medium"
-                    onChange={() => setMediumDetails({ ...mediumDetails, checked: !mediumDetails.checked })}
-                    value={mediumDetails?.checked}
-                />
-                <Form.Check
-                    inline
-                    label="Large"
-                    name="price_list"
-                    type="checkbox"
-                    id="large"
-                    onChange={() => setLargeDetails({ ...largeDetails, checked: !largeDetails.checked })}
-                    value={largeDetails?.checked}
-                />
-            </Form.Group>
+        <Fragment>
+            <Container fluid>
+                <Card style={{ width: '50rem', margin: 'auto', padding: '50px' }}>
+                    <Card.Title>Add menu item</Card.Title>
+                    <Card.Body>
+                        <Form className="container" onSubmit={(e) => submitHandler(e)}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control type="text" placeholder="Enter product name" value={product.name} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Sizes</Form.Label>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Checkbox
+                                        value={small}
+                                        onChange={() => setSmall(!small)}
+                                    />
+                                    <Form.Control type="text" placeholder="Enter price for Small" value={smallDetails.price} onChange={e => setSmallDetails({ ...smallDetails, price: e.target.value })} disabled={small ? false : true} />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Checkbox
+                                        value={medium}
+                                        onChange={() => setMedium(!medium)}
+                                    />
+                                    <Form.Control type="text" placeholder="Enter price for Medium" value={mediumDetails.price} onChange={e => setMediumDetails({ ...mediumDetails, price: e.target.value })} disabled={medium ? false : true} />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Checkbox
+                                        value={large}
+                                        onChange={() => setLarge(!large)}
+                                    />
+                                    <Form.Control type="text" placeholder="Enter price for Large" value={largeDetails.price} onChange={e => setLargeDetails({ ...largeDetails, price: e.target.value })} disabled={large ? false : true} />
+                                </InputGroup>
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select size="md" value={product.category} onChange={(e) => setProduct({ ...product, category: e.target.value })}>
+                                    <option>Select Category</option>
+                                    {
+                                        categories.map(cat => (
+                                            <option>{cat}</option>
+                                        ))
+                                    }
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group controlId="formFileSm" className="mb-3">
+                                {/* <Form.Label>Product Image</Form.Label>
+                                <Form.Control type="file" size="md" /> */}
+                                <FileBase type="file" value={product.image} onDone={({ base64 }) => setProduct({ ...product, image: base64 })} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit" disabled={loading ? true : false}>
+                                Submit
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </Container>
 
-            {
-                isChecked(smallDetails, setSmallDetails)
-            }
-            {
-                isChecked(mediumDetails, setMediumDetails)
-            }
-            {
-                isChecked(largeDetails, setLargeDetails)
-            }
-
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Category</Form.Label>
-                <Form.Select size="md" value={product.category} onChange={(e) => setProduct({ ...product, category: e.target.value })}>
-                    <option>Select Category</option>
-                    {
-                        categories.map(cat => (
-                            <option>{cat}</option>
-                        ))
-                    }
-                </Form.Select>
-            </Form.Group>
-
-            <Form.Group controlId="formFileSm" className="mb-3">
-                {/* <Form.Label>Product Image</Form.Label>
-                <Form.Control type="file" size="md" /> */}
-            <FileBase type="file" value={product.image} onDone={({ base64 }) => setProduct({ ...product, image: base64 })} />
-
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </Form>
+        </Fragment>
     )
 }
 

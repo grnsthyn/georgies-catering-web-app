@@ -4,11 +4,13 @@ import { composeWithDevTools} from 'redux-devtools-extension'
 
 import { authReducer } from './reducers/authReducers'
 import { menuReducer, menuDetailsReducer } from './reducers/menuReducers'
+import { productReducer } from './reducers/productReducers'
 
 const reducer = combineReducers({
     auth: authReducer,
     menu: menuReducer,
-    menuDetails: menuDetailsReducer
+    menuDetails: menuDetailsReducer,
+    product: productReducer
 })
 
 let initialState = {}

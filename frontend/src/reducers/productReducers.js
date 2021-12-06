@@ -1,6 +1,6 @@
 import * as product from '../constants/productConstants';
 
-export const productReducer = (state = { products: [] }, action) => {
+export const productReducer = (state = { product: {} }, action) => {
     switch (action.type) {
         case product.ADD_PRODUCT_REQUEST:
             return {
@@ -10,8 +10,9 @@ export const productReducer = (state = { products: [] }, action) => {
         case product.ADD_PRODUCT_SUCCESS:
             return {
                 ...state,
+                success: action.payload.success,
                 loading: false,
-                products: [...state.products, action.payload.product]
+                product: action.payload.product
             }
 
         case product.ADD_PRODUCT_FAIL:
@@ -21,7 +22,7 @@ export const productReducer = (state = { products: [] }, action) => {
                 error: action.payload
             }
 
-        case CLEAR_ERRORS:
+        case product.CLEAR_ERRORS:
             return {
                 ...state,
                 error: null

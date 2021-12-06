@@ -9,7 +9,6 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     // req.body.user = req.user.id
     const product = await Product.create(req.body)
 
-    console.log(product);
     res.status(201).json({
         success: true,
         product
@@ -18,13 +17,13 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Get all products => /api/v1/products?keyword=menudo
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-    const resPerPage = 3
+    // const resPerPage = 3
     const productCount = await Product.countDocuments()
 
     const apiFeatures = new APIFeatures(Product.find(), req.query)
         .search()
         .filter()
-        .pagination(resPerPage)
+        // .pagination(resPerPage)
 
     const products = await apiFeatures.query
 

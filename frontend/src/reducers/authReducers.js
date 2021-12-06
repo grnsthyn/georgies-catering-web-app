@@ -1,24 +1,16 @@
-import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT_REQUEST,
-    LOGOUT_SUCCESS,
-    LOGOUT_FAIL,
-    CLEAR_ERRORS
-} from '../constants/authConstants'
+import * as auth from '../constants/authConstants'
 
 export const authReducer = (state = { user: {} }, action) => {
     switch (action.type) {
-        case LOGIN_REQUEST:
-        case LOGOUT_REQUEST:
+        case auth.LOGIN_REQUEST:
+        case auth.LOAD_USER_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false
             }
 
-        case LOGIN_SUCCESS:
-        case LOGOUT_FAIL:
+        case auth.LOGIN_SUCCESS:
+        case auth.LOAD_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -26,15 +18,22 @@ export const authReducer = (state = { user: {} }, action) => {
                 user: action.payload
             }
 
-        case LOGOUT_SUCCESS:
+        case auth.LOGOUT_SUCCESS:
             return {
-                ...state,
                 loading: false,
                 isAuthenticated: false,
                 user: null
             }
 
-        case LOGIN_FAIL:
+        case auth.LOAD_USER_FAIL:
+            return {
+                loading: false,
+                isAuthenticated: false,
+                user: null,
+                loadError: action.payload
+            }
+
+        case auth.LOGIN_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -43,7 +42,13 @@ export const authReducer = (state = { user: {} }, action) => {
                 error: action.payload
             }
 
-        case CLEAR_ERRORS:
+        case auth.LOGOUT_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+
+        case auth.CLEAR_ERRORS:
             return {
                 ...state,
                 error: null

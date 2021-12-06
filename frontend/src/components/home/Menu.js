@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getAllMenu, clearErrors } from '../../actions/menuActions'
 // import { useNavigate } from "react-router-dom"
-import { Container } from 'react-bootstrap'
+import { Container, Card, Button, Row, Col } from 'react-bootstrap'
 
 const Menu = () => {
     const alert = useAlert()
@@ -24,24 +24,39 @@ const Menu = () => {
 
     return (
         <Fragment>
-            <Container fluid>
-                <h1>Menu</h1>
-                {loading ? <p>Loading...</p> : (
-                    <Fragment>
-                        { menu && menu.map(item => (
-                            <Fragment>
-                                <p>{item.name}</p>
-                                {item.price_list.map(price => (
-                                    <p>{price.size} - {price.price}</p>
-                                ))}
-                                <p>{item.category}</p>
-                                <Link to={`/menu/${item._id}`}>View item</Link>
-                            </Fragment>
-                        ))}
-                    </Fragment>
-                )}
+            <Container fluid style={{ margin: '10px 30px 10px auto'}}>
+                <center><h1>Menu</h1></center>
+                <Row xs={1} sm={2} md={3} lg={4} className="g-4" style={{ margin: 'auto' }}>
+                    {loading ? <p>Loading...</p> : (
+                        <Fragment>
+                            { menu && menu.map(item => (
+                                <Fragment>
+                                    <Col>
+                                        <Card style={{ width: '18rem', margin: '20px auto' }}>
+                                            <Card.Img variant="top" src="./images/background1.jpeg" />
+                                            <Card.Body>
+                                                <Card.Title>{item.name}</Card.Title>
+                                                <Card.Text className="text-muted" style={{ fontSize: '12px' }}>{item.category}</Card.Text>
+                                                <Card.Text style={{ fontSize: '13px' }}>
+                                                    <span>Sizes available: </span>
+                                                    {item.price_list.map(price => (
+                                                        <span><em>{price.size}, </em></span>
+                                                    ))}
+                                                </Card.Text>
+                                                <Button variant="secondary" style={{ margin: '5px' }}>Add to cart</Button>
+                                                <Link to={`/menu/${item._id}`} style={{ margin: '5px' }}>
+                                                    <Button variant="outline-primary" style={{ margin: '5px' }}>View details</Button>
+                                                </Link>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Fragment>
+                            ))}
+                        </Fragment>
+                    )}
+                </Row>
             </Container>
-        </Fragment>
+        </Fragment >
     )
 }
 
